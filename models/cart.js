@@ -5,7 +5,7 @@ const p = path.join(
     process.require.main.filename
 )
 
-class Card {
+class Cart {
     add() {
         
     }
@@ -15,4 +15,4 @@ class Card {
     }
 }
 
-module.exports = Card;
+module.exports = Cart;
