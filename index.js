@@ -4,7 +4,7 @@ const exphbs = require('express-handlebars');
 const homeRoutes = require('./routes/home');
 const addRoutes = require('./routes/add');
 const coursesRoutes = require('./routes/courses');
-const cartRoutes = require('./routes/card');
+const cartRoutes = require('./routes/cart');
 const { countReset } = require('console');
 
 const app = express();
