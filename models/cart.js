@@ -53,6 +53,8 @@ class Cart {
 
         cart.price -= course.price;
 
+        //sdhfjksld
+
         return new Promise((resolve, reject) => {
             fs.writeFile(p, JSON.stringify(cart), err => {
                 if (err) {
