@@ -21,8 +21,6 @@ class Course {
         };
     }
 
-    //dfjsdhjfkj
-
     static async update(course) {
         const courses = await Course.getAll();
 
