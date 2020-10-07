@@ -6,6 +6,7 @@ const homeRoutes = require('./routes/home');
 const addRoutes = require('./routes/add');
 const coursesRoutes = require('./routes/courses');
 const cartRoutes = require('./routes/cart');
+const ordersRoutes = require('./routes/orders')
 const { countReset } = require('console');
 const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
@@ -40,6 +41,7 @@ app.use('/', homeRoutes);
 app.use('/add', addRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/cart', cartRoutes);
+app.use('/orders', ordersRoutes);
 
 const PORT = process.env.PORT || 3000;
 
