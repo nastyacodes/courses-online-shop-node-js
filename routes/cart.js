@@ -31,7 +31,7 @@ router.delete('/remove/:id', auth, async (req, res) => {
         courses, price: computedPrice(courses)
     }
     res.status(200).json(cart);
-})
+});
 
 router.get('/', auth, async (req, res) => {
     const user = await req.user
