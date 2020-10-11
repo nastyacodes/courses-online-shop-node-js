@@ -15,6 +15,7 @@ const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const User = require('./models/user');
 const varMiddleware = require('./middleware/variables');
+const userMiddleware = require('./middleware/user');
 
 const MONGODB_URI = 'mongodb+srv://itshpit:kVoFTHqKvT4Q2GjI@cluster0.jgyce.mongodb.net/shop';
 const app = express();
@@ -42,6 +43,7 @@ app.use(session({
     store
 }));
 app.use(varMiddleware);
+app.use(userMiddleware);
 
 app.use('/', homeRoutes);
 app.use('/add', addRoutes);
