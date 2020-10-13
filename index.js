@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const csurf = require('csurf'); //сразу после функционала сессии
+const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
@@ -14,7 +15,6 @@ const authRoutes = require('./routes/auth');
 const { countReset } = require('console');
 const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
-const User = require('./models/user');
 const varMiddleware = require('./middleware/variables');
 const userMiddleware = require('./middleware/user');
 
@@ -44,6 +44,7 @@ app.use(session({
     store
 }));
 app.use(csurf());
+app.use(flash());
 app.use(varMiddleware);
 app.use(userMiddleware);
 
