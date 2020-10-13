@@ -17,8 +17,8 @@ const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const varMiddleware = require('./middleware/variables');
 const userMiddleware = require('./middleware/user');
+const keys = require('./keys'); //необязательно прописывать index.js
 
-const MONGODB_URI = 'mongodb+srv://itshpit:kVoFTHqKvT4Q2GjI@cluster0.jgyce.mongodb.net/shop';
 const app = express();
 const hbs = exphbs.create({
     defaultLayout: 'main',
@@ -27,7 +27,7 @@ const hbs = exphbs.create({
 });
 const store = new MongoStore({
     collection: 'sessions',
-    uri: MONGODB_URI
+    uri: keys.MONGODB_URI
 });
 
 //set handlebars
@@ -38,7 +38,7 @@ app.set('views', 'views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 app.use(session({
-    secret: 'some secret string',
+    secret: keys.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store
@@ -59,7 +59,7 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
     try {
-        await mongoose.connect(MONGODB_URI, {
+        await mongoose.connect(keys.MONGODB_URI, {
             useNewUrlParser: true, 
             useUnifiedTopology: true,
             useFindAndModify: false
