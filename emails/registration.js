@@ -11,5 +11,5 @@ module.exports = function(email) {
             <hr/>
             <a href="${keys.BASE_URL}">Магазин курсов</a>
         `
-    };
+    }
 }
