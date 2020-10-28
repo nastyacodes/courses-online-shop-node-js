@@ -2,12 +2,14 @@ const {Router} = require('express');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const {validationResult} = require('express-validator');
 const sendgrid = require('nodemailer-sendgrid-transport');
 const User = require('../models/user');
 const keys = require('../keys');
 const regEmail = require('../emails/registration');
 const resetEmail = require('../emails/reset');
 const { request } = require('http');
+const {registerValidators} = require('../utils/validators');
 
 const router = Router();
 
@@ -61,26 +63,26 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', registerValidators, async (req, res) => {
     try {
-        const {name, email, password} = req.body;
-        const candidate = await User.findOne({ email });
+        const {email, password, name} = req.body;
 
-        if (candidate) {
-            req.flash('registerError', 'Пользователь с таким email уже существует!');
-            res.redirect('/auth/login#register');
-        } else {
-            const hashPassword = await bcrypt.hash(password, 10);
-            const user = new User({
-                email, name, password: hashPassword, cart: {items: []}
-            });
-
-            await user.save();
-            
-            await transporter.sendMail(regEmail(email)); //лучше использовать после редиректов
-            //чтобы сайт не тормозился, а имейл отправлялся в фоновом режиме
-            res.redirect('/auth/login#login');
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            req.flash('registerError', errors.array()[0].msg);
+            return res.status(422).redirect('/auth/login#register'); //422 - статус для ошибок валидации
         }
+
+        const hashPassword = await bcrypt.hash(password, 10);
+        const user = new User({
+            email, name, password: hashPassword, cart: {items: []}
+        });
+
+        await user.save();
+            
+        await transporter.sendMail(regEmail(email)); //лучше использовать после редиректов
+        //чтобы сайт не тормозился, а имейл отправлялся в фоновом режиме
+        res.redirect('/auth/login#login');
     } catch (e) {
         console.log(e);
     }
