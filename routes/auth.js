@@ -9,7 +9,7 @@ const keys = require('../keys');
 const regEmail = require('../emails/registration');
 const resetEmail = require('../emails/reset');
 const { request } = require('http');
-const {registerValidators} = require('../utils/validators');
+const {registerValidators, loginValidators} = require('../utils/validators');
 
 const router = Router();
 
@@ -32,9 +32,16 @@ router.get('/logout', async(req, res) => {
     });
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', loginValidators, async (req, res) => {
     try {
         const {email, password} = req.body;
+        //this is a simple comment i am writing just for taking 
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            req.flash('loginError', errors.array()[0].msg);
+            return res.status(422).redirect('/auth/login#login'); //422 - статус для ошибок вали
+        }
 
         const candidate = await User.findOne({ email });
 
