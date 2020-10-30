@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const { stringify } = require('uuid');
 
 const userSchema = new Schema({
     email: {
@@ -10,6 +11,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    avatarUrl: String,
     resetToken: String,
     resetTokenExp: Date,
     cart: {
