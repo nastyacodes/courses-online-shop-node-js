@@ -3,6 +3,7 @@ const path = require('path');
 const csurf = require('csurf'); //сразу после функционала сессии
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
@@ -51,6 +52,7 @@ app.use(session({
 app.use(fileMiddleware.single('avatar')); //одиночный полученный файл будет складываться в поле avatar
 app.use(csurf());
 app.use(flash());
+app.use(helmet());
 app.use(varMiddleware);
 app.use(userMiddleware);
 
