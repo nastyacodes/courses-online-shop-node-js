@@ -4,6 +4,7 @@ const csurf = require('csurf'); //сразу после функционала �
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const compression = require('compression');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
@@ -53,6 +54,7 @@ app.use(fileMiddleware.single('avatar')); //одиночный полученн�
 app.use(csurf());
 app.use(flash());
 app.use(helmet());
+app.use(compression());
 app.use(varMiddleware);
 app.use(userMiddleware);
 
